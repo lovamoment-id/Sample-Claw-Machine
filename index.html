@@ -575,11 +575,11 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 
 <!-- ============ LETTER ============ -->
 <div id="page-letter" class="hidden">
-  <div class="winner-badge" id="winBadge">&#9733; PLAYER 1 &mdash; GRAND PRIZE &#9733;</div>
+  <div class="winner-badge" id="winBadge">&#9733; PLAYER 1 - GRAND PRIZE &#9733;</div>
 
   <div class="ticket reveal" id="ticket">
     <div class="ticket-head">
-      <div class="ticket-kicker" id="tKicker">PRIZE VOUCHER &mdash; NO EXPIRY</div>
+      <div class="ticket-kicker" id="tKicker">PRIZE VOUCHER - NO EXPIRY</div>
       <h1 class="ticket-title" id="tTitle"></h1>
       <div class="serial" id="tSerial"></div>
     </div>
@@ -628,9 +628,11 @@ var CONFIG = {
   /* --- letter --- */
   ticketKicker: 'PRIZE VOUCHER - NO EXPIRY',
   letterTitle: 'Hadiah Utama Hidupku',
-  serialText: 'SERIAL 07-06-2024 / GRAND PRIZE 001',
+  /* Tanggal diisi otomatis dari waktu lokal pembuka halaman, format DD-MM-YYYY. */
+  serialPrefix: 'SERIAL',
+  serialSuffix: 'GRAND PRIZE 001',
   letterParagraphs: [
-    'Terima kasih ya, Sayang. Untuk kesabaran kamu waktu aku lagi susah dimengerti. Untuk tawa kamu yang bikin hari terburuk pun jadi ringan. Untuk cara kamu peduli, aku selalu bersyukur dan menghargainya.',
+    'Terima kasih ya, Zia. Untuk kesabaran kamu waktu aku lagi susah dimengerti. Untuk tawa kamu yang bikin hari terburuk pun jadi ringan. Untuk cara kamu peduli, aku selalu bersyukur dan menghargainya.',
     'You are the kind of woman people write songs about, dan aku beruntung bisa jadi orang yang menulisnya setiap hari, walaupun cuma lewat hal-hal kecil.',
     'Jadi ini bukan cuma surat. Ini pengingat bahwa dari semua kemungkinan di dunia, aku paling bersyukur dapat kamu.'
   ],
@@ -1081,10 +1083,21 @@ function winScreenReady(){
 /* ============================================================
    LETTER PAGE
    ============================================================ */
+
+/* Tanggal hari ini, waktu lokal pembuka halaman, format DD-MM-YYYY. */
+function todayDDMMYYYY(){
+  var d = new Date();
+  var dd = String(d.getDate());
+  var mm = String(d.getMonth() + 1);
+  if(dd.length < 2){ dd = '0' + dd; }
+  if(mm.length < 2){ mm = '0' + mm; }
+  return dd + '-' + mm + '-' + d.getFullYear();
+}
+
 function fillLetter(){
   $('tKicker').textContent = CONFIG.ticketKicker;
   $('tTitle').textContent = CONFIG.letterTitle;
-  $('tSerial').textContent = CONFIG.serialText;
+  $('tSerial').textContent = CONFIG.serialPrefix + ' ' + todayDDMMYYYY() + ' / ' + CONFIG.serialSuffix;
   $('photoCap').textContent = CONFIG.photoCaption;
   $('signFrom').textContent = CONFIG.signFrom;
   $('signName').textContent = CONFIG.senderName;
